@@ -1,0 +1,9 @@
+create table Registration
+(
+	reg_ID  NUMBER(10) CONSTRAINT reg_pk PRIMARY KEY,
+	num_ID NUMBER(10) CONSTRAINT reg_num REFERENCES FreeNumbers(num_ID),
+	vehicle_ID NUMBER(10) CONSTRAINT reg_vh REFERENCES Vehicles(vehicle_ID),
+	owner_ID NUMBER(10) CONSTRAINT reg_own REFERENCES Owners(owner_ID),
+	dateReg DATE CONSTRAINT reg_date CHECK (dateReg  IS NOT NULL)
+
+)

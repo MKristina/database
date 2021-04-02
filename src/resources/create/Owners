@@ -1,0 +1,9 @@
+create table Owners
+(
+	owner_ID NUMBER(10) CONSTRAINT owners_pk PRIMARY KEY,
+	ownType_ID NUMBER(2) CONSTRAINT ownerType REFERENCES OwnerTypes(owntype_ID),
+	lastName VARCHAR2(50) CONSTRAINT o_lastName CHECK (lastName IS NOT NULL),
+	firstName VARCHAR2(50) CONSTRAINT o_firstName CHECK (firstName IS NOT NULL),
+	patronymic VARCHAR2(50),
+	address VARCHAR2(400) CONSTRAINT o_address  CHECK (address  IS NOT NULL)
+)

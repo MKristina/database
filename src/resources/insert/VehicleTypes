@@ -1,0 +1,8 @@
+INSERT INTO VehicleTypes(name) VALUES('легковой автомобиль')
+INSERT INTO VehicleTypes(name) VALUES('грузовой автомобиль')
+INSERT INTO VehicleTypes(name) VALUES('прицеп')
+INSERT INTO VehicleTypes(name) VALUES('полуприцпеп')
+INSERT INTO VehicleTypes(name) VALUES('мотоцикл')
+INSERT INTO VehicleTypes(name) VALUES('трактор')
+INSERT INTO VehicleTypes(name) VALUES('автобус')
+INSERT INTO VehicleTypes(name) VALUES('микроавтобус')

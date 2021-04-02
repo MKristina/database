@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_ai_registration before INSERT ON Registration FOR each row BEGIN SELECT sq_registration.NEXTVAL INTO :new.reg_ID FROM dual; END;

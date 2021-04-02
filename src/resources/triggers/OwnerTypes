@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_ai_ownerTypes before INSERT ON OwnerTypes FOR each row BEGIN SELECT sq_ownerTypes.NEXTVAL INTO :new.ownType_ID FROM dual; END;

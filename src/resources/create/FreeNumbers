@@ -1,0 +1,7 @@
+create table FreeNumbers
+(
+ num_ID NUMBER(10) CONSTRAINT num_pk PRIMARY KEY,
+ series VARCHAR2(3) CONSTRAINT fr_series CHECK(series IS NOT NULL),
+ num VARCHAR2(3) CONSTRAINT fr_num CHECK(num IS NOT NULL),
+ flag NUMBER(1) CONSTRAINT fr_flag CHECK(flag IS NOT NULL)
+)

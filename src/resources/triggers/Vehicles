@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_ai_vehicles before INSERT ON Vehicles FOR each row BEGIN SELECT sq_vehicles.NEXTVAL INTO :new.vehicle_ID FROM dual; END;

@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_ai_organizations before INSERT ON Organizations FOR each row BEGIN SELECT sq_organizations.NEXTVAL INTO :new.org_ID FROM dual; END;

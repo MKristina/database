@@ -1,0 +1,2 @@
+INSERT INTO Organizations(name, region, owner_ID) VALUES('Глаз-алмаз', 'Советский район',6 )
+INSERT INTO Organizations(name, region, owner_ID) VALUES('Любимая пекарня', 'Бердск', 8)

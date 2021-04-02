@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_ai_freeNumbers before INSERT ON FreeNumbers FOR each row BEGIN SELECT sq_freeNumbers.NEXTVAL INTO :new.num_ID FROM dual; END;
