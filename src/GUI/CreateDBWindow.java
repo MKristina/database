@@ -5,7 +5,6 @@ import DAO.InsertData;
 import DAO.MyConnection;
 
 import javax.swing.*;
-import java.awt.*;
 import java.sql.SQLException;
 
 public class CreateDBWindow extends JFrame {
@@ -14,17 +13,24 @@ public class CreateDBWindow extends JFrame {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(400,200);
         window.setLayout(null);
-        JLabel msg = new JLabel("Перед началом работы создайте БД");
-        msg.setVisible(true);
-        JButton createButton = new JButton("Создать БД");
-        createButton.setBounds(50, 50, 200, 50);
+      //  JLabel msg = new JLabel("Перед началом работы создайте БД");
+        //msg.setVisible(true);
+        JButton createButton = new JButton("Создать тестовую базу данных");
+        createButton.setBounds(50, 50, 300, 40);
         createButton.addActionListener(e -> {
             CreateTables createTables = new CreateTables(conn);
             createTables.create();
            InsertData insertData = new InsertData(conn);
            insertData.insert();
+            try {
+                MenuWindow menuWindow = new MenuWindow(conn);
+                window.setVisible(false);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
         });
-        window.add(msg);
+   //     window.add(msg);
         window.add(createButton);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
