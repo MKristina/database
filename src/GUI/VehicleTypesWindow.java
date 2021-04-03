@@ -3,28 +3,23 @@ package GUI;
 import DAO.MyConnection;
 
 import javax.swing.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Vector;
 
-public class OwnersWindow extends JFrame {
+public class VehicleTypesWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
-    public OwnersWindow(MyConnection conn){
+    public VehicleTypesWindow(MyConnection conn){
         addActionListeners(conn);
+
     }
     private void addActionListeners(MyConnection conn){
+
             columnNames = new Vector();
-            columnNames.add("ID владельца");
-            columnNames.add("Фамилия");
-            columnNames.add("Имя");
-            columnNames.add("Отчество");
-            columnNames.add("Адрес");
-            columnNames.add("Тип владельца");
+            columnNames.add("ID типа");
+            columnNames.add("Название");
             strings = new Vector();
-            String select = "SELECT owner_ID, LastName, FirstName, patronymic, address, OwnerTypes.name FROM Owners INNER JOIN OwnerTypes USING(ownType_ID)";
+            String select = "SELECT * FROM VehicleTypes";
             ResultSet resultSet = null;
             try {
                 PreparedStatement preparedStatement = conn.conn.prepareStatement(select);
@@ -41,7 +36,7 @@ public class OwnersWindow extends JFrame {
                         tmp.add(resultSet.getString(i));
                     strings.add(tmp);
                 }
-                new TablesView(conn, "Owners", columnNames, strings);
+               new TablesView(conn, "VehicleTypes", columnNames, strings);
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }

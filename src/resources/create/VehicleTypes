@@ -1,4 +1,4 @@
 create table VehicleTypes(
     type_ID NUMBER(4) CONSTRAINT vh_type_pk PRIMARY KEY,
-    name VARCHAR(50) CONSTRAINT vh_type_name CHECK (name IS NOT NULL)
+    name VARCHAR(100) CONSTRAINT vh_type_name CHECK (name IS NOT NULL)
 )

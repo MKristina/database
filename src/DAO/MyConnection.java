@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 public class MyConnection {
 
-    private final Connection conn;
+    public final Connection conn;
 
     public MyConnection(String username, String password, String url) throws SQLException {
         try {

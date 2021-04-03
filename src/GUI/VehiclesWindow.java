@@ -9,22 +9,31 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class OwnersWindow extends JFrame {
+public class VehiclesWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
-    public OwnersWindow(MyConnection conn){
+
+    public VehiclesWindow(MyConnection conn){
+
         addActionListeners(conn);
     }
     private void addActionListeners(MyConnection conn){
+
             columnNames = new Vector();
-            columnNames.add("ID владельца");
-            columnNames.add("Фамилия");
-            columnNames.add("Имя");
-            columnNames.add("Отчество");
-            columnNames.add("Адрес");
-            columnNames.add("Тип владельца");
+            columnNames.add("ID ТС");
+            columnNames.add("Тип ТС");
+            columnNames.add("Бренд");
+            columnNames.add("Модель");
+            columnNames.add("Год выпуска");
+            columnNames.add("Номер двигателя");
+            columnNames.add("Объем двигателя");
+            columnNames.add("Мощность двигателя");
+            columnNames.add("Номер шасси");
+            columnNames.add("Номер кузова");
+            columnNames.add("Цвет");
+            columnNames.add("Тип кузова");
             strings = new Vector();
-            String select = "SELECT owner_ID, LastName, FirstName, patronymic, address, OwnerTypes.name FROM Owners INNER JOIN OwnerTypes USING(ownType_ID)";
+            String select = "SELECT vehicle_ID, VehicleTypes.name, brand, model, dateOfIssue,engineNumber, engineVolume, enginePower,chassisNumber, bodyNumber, color, bodyType FROM Vehicles INNER JOIN VehicleTypes USING(type_ID)";
             ResultSet resultSet = null;
             try {
                 PreparedStatement preparedStatement = conn.conn.prepareStatement(select);
@@ -41,7 +50,7 @@ public class OwnersWindow extends JFrame {
                         tmp.add(resultSet.getString(i));
                     strings.add(tmp);
                 }
-                new TablesView(conn, "Owners", columnNames, strings);
+                new TablesView(conn, "Vehicles", columnNames, strings);
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }

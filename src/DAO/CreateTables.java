@@ -1,12 +1,14 @@
 package DAO;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class CreateTables {
 
@@ -27,13 +29,13 @@ public class CreateTables {
     }
 
     private String writeScriptFromFile(String relativePath) {
-        try {
-            return new String(Files.readAllBytes(Paths.get(
-                    "src/resources/" + relativePath)));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        InputStreamReader is = null;
+        relativePath = "resources/" + relativePath;
+        System.out.printf( relativePath + "\n");
+        is = new InputStreamReader(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(relativePath)));
+
+            BufferedReader reader = new BufferedReader(is);
+            return reader.lines().collect(Collectors.joining());
     }
 
     private List<String> deleteTables() {

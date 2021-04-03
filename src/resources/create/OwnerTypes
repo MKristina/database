@@ -1,1 +1,1 @@
-create table OwnerTypes( ownType_ID NUMBER(2) CONSTRAINT own_types_pk PRIMARY KEY, name  VARCHAR2(50) CONSTRAINT ot_name CHECK (name IS NOT NULL))
+create table OwnerTypes( ownType_ID NUMBER(2) CONSTRAINT own_types_pk PRIMARY KEY, name  VARCHAR2(100) CONSTRAINT ot_name CHECK (name IS NOT NULL))

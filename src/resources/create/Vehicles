@@ -1,14 +1,14 @@
 create table Vehicles(
     vehicle_ID           NUMBER(10) CONSTRAINT vehicles_pk PRIMARY KEY ,
     type_ID              NUMBER(4)  CONSTRAINT vehicle_type REFERENCES VehicleTypes(type_ID),
-    brand                VARCHAR2(50) CONSTRAINT vh_brand CHECK (brand IS NOT NULL),
-    model                VARCHAR2(50) CONSTRAINT vh_model CHECK (model IS NOT NULL),
+    brand                VARCHAR2(100) CONSTRAINT vh_brand CHECK (brand IS NOT NULL),
+    model                VARCHAR2(100) CONSTRAINT vh_model CHECK (model IS NOT NULL),
     dateOfIssue          DATE CONSTRAINT vh_dateOfIssue CHECK (dateOfIssue IS NOT NULL),
     engineVolume         NUMBER(5,2) CONSTRAINT vh_engineVolume CHECK (engineVolume IS NOT NULL) ,
     engineNumber         VARCHAR2(20) CONSTRAINT vh_engineNumber CHECK (engineNumber IS NOT NULL) ,
-    chassisNumber        VARCHAR2(20),
+    chassisNumber        VARCHAR2(20) CONSTRAINT vh_chassisNumber CHECK (chassisNumber IS NOT NULL) ,
     bodyNumber           VARCHAR2(20) CONSTRAINT vh_bodyNumber CHECK (bodyNumber IS NOT NULL) ,
-    color                VARCHAR2(50) CONSTRAINT vh_color CHECK (color IS NOT NULL),
-    bodyType             VARCHAR2(50) CONSTRAINT vh_bodyType CHECK (bodyType IS NOT NULL) ,
+    color                VARCHAR2(60) CONSTRAINT vh_color CHECK (color IS NOT NULL),
+    bodyType             VARCHAR2(60) CONSTRAINT vh_bodyType CHECK (bodyType IS NOT NULL) ,
     enginePower          NUMBER(5,2) CONSTRAINT vh_enginePower CHECK (enginePower IS NOT NULL)
 )
