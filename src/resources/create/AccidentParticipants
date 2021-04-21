@@ -1,0 +1,7 @@
+create table AccidentParticipants
+(
+ record_ID NUMBER(5) CONSTRAINT accPart_pk PRIMARY KEY,
+ acc_ID NUMBER(10)CONSTRAINT acc_id_fk REFERENCES RoadAccidents(acc_ID ),
+ reg_ID NUMBER(11)CONSTRAINT acc_vehicle REFERENCES Registration(reg_ID),
+ damage NUMBER(10,2) CONSTRAINT acc_part CHECK (damage IS NOT NULL)
+)

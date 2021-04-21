@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class MenuWindow extends JFrame {
 
 
-    public MenuWindow(MyConnection conn) throws SQLException {
+    public MenuWindow(MyConnection conn, String role) throws SQLException {
         JFrame window = new JFrame("ГИБДД");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(500,500);
@@ -23,20 +23,20 @@ public class MenuWindow extends JFrame {
         vehiclesButton.setBounds(20, 10, 200, 40);
 
         vehiclesButton.addActionListener(e-> {
-            VehiclesWindow vehiclesWindow = new VehiclesWindow(conn);
+            VehiclesWindow vehiclesWindow = new VehiclesWindow(conn, role);
             window.setVisible(false);
         });
         JButton ownersButton = new JButton("Владельцы ТС");
         ownersButton.setBounds(20, 60, 200, 40);
         ownersButton.addActionListener(e -> {
-            OwnersWindow ownersWindow = new OwnersWindow(conn);
+            OwnersWindow ownersWindow = new OwnersWindow(conn, role);
             window.setVisible(false);
         });
         JButton vehicleTypesButton = new JButton("Типы ТС");
         vehicleTypesButton.setBounds(20, 110, 200, 40);
 
         vehicleTypesButton.addActionListener(e-> {
-        VehicleTypesWindow vehicleTypesWindow = new VehicleTypesWindow(conn);
+        VehicleTypesWindow vehicleTypesWindow = new VehicleTypesWindow(conn, role);
         window.setVisible(false);
         });
 
@@ -44,15 +44,85 @@ public class MenuWindow extends JFrame {
         registrationButton.setBounds(20, 160, 200, 40);
 
         registrationButton.addActionListener(e-> {
-            RegistrationView registrationView = new RegistrationView(conn);
+            RegistrationView registrationView = new RegistrationView(conn, role);
             window.setVisible(false);
         });
+
+        JButton registrationNewButton = new JButton("Зарегистрировать ТС");
+        registrationNewButton.setBounds(240, 10, 200, 40);
+
+        registrationNewButton.addActionListener(e-> {
+            CreateRegistrationWindow createRegistrationWindow = new CreateRegistrationWindow(conn, role);
+            window.setVisible(false);
+        });
+
+        JButton accTypesButton = new JButton("Типы ДТП");
+        accTypesButton.setBounds(20, 210, 200, 40);
+
+        accTypesButton.addActionListener(e-> {
+            AccidentTypesWindow accidentTypesWindow = new AccidentTypesWindow(conn, role);
+            window.setVisible(false);
+        });
+        JButton accReasonsButton = new JButton("Причины ДТП");
+        accReasonsButton.setBounds(20, 260, 200, 40);
+
+        accReasonsButton.addActionListener(e-> {
+            AccidentReasonsWindow accidentReasonsWindow = new AccidentReasonsWindow(conn, role);
+            window.setVisible(false);
+        });
+        JButton accidentButton = new JButton("ДТП");
+        accidentButton.setBounds(20, 310, 200, 40);
+
+        accidentButton.addActionListener(e-> {
+            AccidentsWindow accidentsWindow = new AccidentsWindow(conn, role);
+            window.setVisible(false);
+        });
+
+        JButton accidentNewButton = new JButton("Зарегистирировать ДТП");
+        accidentNewButton.setBounds(240, 60, 200, 40);
+
+        accidentNewButton.addActionListener(e-> {
+            CreateDTPWindow createDTPWindow = new CreateDTPWindow(conn, role);
+            window.setVisible(false);
+        });
+
+        JButton ownInfButton = new JButton("Информация о владельце");
+        ownInfButton.setBounds(20, 360, 200, 40);
+
+        ownInfButton.addActionListener(e-> {
+            SearchNumber searchNumber  = new SearchNumber(conn, role);
+            window.setVisible(false);
+        });
+
+        JButton goBackButton = new JButton("Сменить пользователя");
+        goBackButton.setBounds(240, 360, 200, 40);
+
+        goBackButton.addActionListener(e-> {
+            AuthorizationWindow authorizationWindow  = new AuthorizationWindow(conn);
+            window.setVisible(false);
+        });
+
+        if(role == "admin"){
+            registrationNewButton.setVisible(false);
+            accidentNewButton.setVisible(false);
+        } else if(role == "staff"){
+            registrationNewButton.setVisible(true);
+            accidentNewButton.setVisible(true);
+        }
 
      // window.add(msg);
       window.add(ownersButton);
       window.add(vehiclesButton);
       window.add(vehicleTypesButton);
       window.add(registrationButton);
+      window.add(registrationNewButton);
+      window.add(accTypesButton);
+      window.add(accReasonsButton);
+      window.add(accidentButton);
+
+        window.add(accidentNewButton);
+      window.add(ownInfButton);
+        window.add(goBackButton);
       window.setVisible(true);
       window.setLocationRelativeTo(null);
     }

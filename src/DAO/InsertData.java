@@ -27,13 +27,16 @@ public class InsertData {
         tablesName.add("Organizations");
         tablesName.add("FreeNumbers");
         tablesName.add("Registration");
+        tablesName.add("AccidentsTypes");
+        tablesName.add("AccidentReasons");
+        tablesName.add("RoadAccidents");
+        tablesName.add("AccidentParticipants");
     }
 
     private List<String> writeScriptFromFile(String relativePath) {
         InputStreamReader is = null;
         relativePath = "resources/" + relativePath;
-        System.out.printf( relativePath+ "\n");
-        is = new InputStreamReader(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(relativePath)));
+        is = new InputStreamReader(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(relativePath), "UTF-16"));
         BufferedReader reader = new BufferedReader(is);
         List<String> queries = new LinkedList<>();
         Object[] lines = reader.lines().toArray();

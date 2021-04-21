@@ -12,10 +12,10 @@ import java.util.Vector;
 public class OwnersWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
-    public OwnersWindow(MyConnection conn){
-        addActionListeners(conn);
+    public OwnersWindow(MyConnection conn, String role){
+        addActionListeners(conn, role);
     }
-    private void addActionListeners(MyConnection conn){
+    private void addActionListeners(MyConnection conn, String role){
             columnNames = new Vector();
             columnNames.add("ID владельца");
             columnNames.add("Фамилия");
@@ -41,7 +41,7 @@ public class OwnersWindow extends JFrame {
                         tmp.add(resultSet.getString(i));
                     strings.add(tmp);
                 }
-                new TablesView(conn, "Owners", columnNames, strings);
+                new TablesView(conn, "Owners", columnNames, strings, role);
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }

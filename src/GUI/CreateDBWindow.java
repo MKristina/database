@@ -22,12 +22,9 @@ public class CreateDBWindow extends JFrame {
             createTables.create();
            InsertData insertData = new InsertData(conn);
            insertData.insert();
-            try {
-                MenuWindow menuWindow = new MenuWindow(conn);
+            //    MenuWindow menuWindow = new MenuWindow(conn);
+                AuthorizationWindow authorizationWindow = new AuthorizationWindow(conn);
                 window.setVisible(false);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
 
         });
    //     window.add(msg);

@@ -13,11 +13,11 @@ public class VehiclesWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
 
-    public VehiclesWindow(MyConnection conn){
+    public VehiclesWindow(MyConnection conn, String role){
 
-        addActionListeners(conn);
+        addActionListeners(conn, role);
     }
-    private void addActionListeners(MyConnection conn){
+    private void addActionListeners(MyConnection conn, String role){
 
             columnNames = new Vector();
             columnNames.add("ID ТС");
@@ -50,7 +50,7 @@ public class VehiclesWindow extends JFrame {
                         tmp.add(resultSet.getString(i));
                     strings.add(tmp);
                 }
-                new TablesView(conn, "Vehicles", columnNames, strings);
+                new TablesView(conn, "Vehicles", columnNames, strings, role);
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }

@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 public class MyConnection {
 
-    public final Connection conn;
+    public  final Connection conn;
 
     public MyConnection(String username, String password, String url) throws SQLException {
         try {
@@ -69,5 +69,24 @@ public class MyConnection {
         try(PreparedStatement preStatement = conn.prepareStatement(sqlQuery)) {
             preStatement.executeUpdate(sqlQuery);
         }
+    }
+    public  Vector select(String sqlQuery, int countColumns) {
+        Vector resultVector = new Vector();
+        ResultSet resultSet;
+        try (Statement statement = conn.createStatement()) {
+            resultSet = statement.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                Vector row = new Vector();
+                for (int i = 1; i <= countColumns; i++) {
+                    String element = resultSet.getString(i);
+                    row.add(element);
+                }
+                resultVector.add(row);
+            }
+            resultSet.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return resultVector;
     }
 }

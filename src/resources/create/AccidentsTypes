@@ -1,0 +1,5 @@
+create table AccidentTypes
+(
+ accType_ID NUMBER(4) CONSTRAINT acc_type_pk PRIMARY KEY,
+ name VARCHAR(200) CONSTRAINT acc_name CHECK (name IS NOT NULL)
+)

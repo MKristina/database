@@ -9,25 +9,26 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class RegistrationView extends JFrame {
+public class AccidentsWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
-
-    public RegistrationView(MyConnection conn, String role){
-
+    public AccidentsWindow(MyConnection conn, String role){
         addActionListeners(conn, role);
+
     }
     private void addActionListeners(MyConnection conn, String role){
 
         columnNames = new Vector();
-        columnNames.add("ID Регистрации");
-        columnNames.add("Владелец");
-        columnNames.add("ТС");
-        columnNames.add("Гос. номер");
-        columnNames.add("Дата регистрации");
-
+        columnNames.add("ID ДТП");
+        columnNames.add("Тип");
+        columnNames.add("Причина");
+        columnNames.add("Дата");
+        columnNames.add("Место");
+        columnNames.add("Описание");
+        columnNames.add("Дорожные условия");
+        columnNames.add("Число пострадавших");
         strings = new Vector();
-        String select = "select reg_ID, LastName || ' ' || FirstName, brand || ' ' || model, series || ' ' || num, dateReg from registration join owners using(owner_id) join vehicles using (vehicle_id) join freenumbers using (num_id)";
+        String select = "SELECT acc_ID, name, accDescription, accDate, PLACE, DESCRIPTION, ROADCONDITION, NUMOFVICTIMS FROM RoadAccidents JOIN AccidentTypes USING(acctype_ID) Join AccidentReasons USING(accReason_ID)";
         ResultSet resultSet = null;
         try {
             PreparedStatement preparedStatement = conn.conn.prepareStatement(select);
@@ -44,7 +45,7 @@ public class RegistrationView extends JFrame {
                     tmp.add(resultSet.getString(i));
                 strings.add(tmp);
             }
-            new TablesView(conn, "Registration", columnNames, strings, role);
+            new TablesView(conn, "RoadAccidents", columnNames, strings, role);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

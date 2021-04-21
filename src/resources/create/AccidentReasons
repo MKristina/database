@@ -1,0 +1,5 @@
+create table AccidentReasons
+(
+ accReason_ID NUMBER(4) CONSTRAINT acc_reason_pk PRIMARY KEY,
+ accDescription VARCHAR(500) CONSTRAINT res_descr CHECK (accDescription IS NOT NULL)
+)

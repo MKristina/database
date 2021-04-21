@@ -9,25 +9,23 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class RegistrationView extends JFrame {
+public class AccidentParticipantsWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
+    public AccidentParticipantsWindow(MyConnection conn, int accident_ID, String role){
+        addActionListeners(conn,  accident_ID, role);
 
-    public RegistrationView(MyConnection conn, String role){
-
-        addActionListeners(conn, role);
     }
-    private void addActionListeners(MyConnection conn, String role){
+    private void addActionListeners(MyConnection conn, int accident_ID, String role){
 
         columnNames = new Vector();
-        columnNames.add("ID Регистрации");
-        columnNames.add("Владелец");
+        columnNames.add("ID ДТП");
+        columnNames.add("ФИО участника");
         columnNames.add("ТС");
         columnNames.add("Гос. номер");
-        columnNames.add("Дата регистрации");
-
+        columnNames.add("Сумма ущерба");
         strings = new Vector();
-        String select = "select reg_ID, LastName || ' ' || FirstName, brand || ' ' || model, series || ' ' || num, dateReg from registration join owners using(owner_id) join vehicles using (vehicle_id) join freenumbers using (num_id)";
+        String select = "SELECT record_ID, lastName || ' ' || firstName || ' ' || patronymic, brand||' '||model,series||num,  damage FROM AccidentParticipants JOIN Registration USING(reg_ID) JOIN FreeNumbers USING(num_ID) JOIN Owners USING(owner_ID) JOIN Vehicles USING(vehicle_ID) WHERE acc_ID = " + accident_ID;
         ResultSet resultSet = null;
         try {
             PreparedStatement preparedStatement = conn.conn.prepareStatement(select);
@@ -44,7 +42,7 @@ public class RegistrationView extends JFrame {
                     tmp.add(resultSet.getString(i));
                 strings.add(tmp);
             }
-            new TablesView(conn, "Registration", columnNames, strings, role);
+            new TablesView(conn, "AccidentParticipants", columnNames, strings, role);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

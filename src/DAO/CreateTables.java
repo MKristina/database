@@ -26,15 +26,18 @@ public class CreateTables {
         tablesName.add("Organizations");
         tablesName.add("FreeNumbers");
         tablesName.add("Registration");
+        tablesName.add("AccidentsTypes");
+        tablesName.add("AccidentReasons");
+       tablesName.add("RoadAccidents");
+       tablesName.add("AccidentParticipants");
     }
 
     private String writeScriptFromFile(String relativePath) {
         InputStreamReader is = null;
         relativePath = "resources/" + relativePath;
-        System.out.printf( relativePath + "\n");
-        is = new InputStreamReader(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(relativePath)));
+            is = new InputStreamReader(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(relativePath)));
 
-            BufferedReader reader = new BufferedReader(is);
+        BufferedReader reader = new BufferedReader(is );
             return reader.lines().collect(Collectors.joining());
     }
 
@@ -83,11 +86,14 @@ public class CreateTables {
         return autoIncrements;
     }
     public void create() {
+
         List<String> createList = new LinkedList<>();
         for(String name : tablesName)
         {
             createList.add(writeScriptFromFile("create/" + name));
         }
+
+
     /*    try {
             connection.executeQuery(writeScriptFromFile("createIfNotExists.sql"));
         }
@@ -103,8 +109,8 @@ public class CreateTables {
         // execForAll(deleteSequences());
         execForAll(deleteTables());
         execForAll(createList);
-        execForAll(getSequencesDrops());
+       execForAll(getSequencesDrops());
         execForAll(getSequences());
-        execForAll(addAutoincrement());
+       execForAll(addAutoincrement());
     }
 }

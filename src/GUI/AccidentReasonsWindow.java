@@ -9,25 +9,20 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class RegistrationView extends JFrame {
+public class AccidentReasonsWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
-
-    public RegistrationView(MyConnection conn, String role){
-
+    public AccidentReasonsWindow(MyConnection conn, String role){
         addActionListeners(conn, role);
+
     }
     private void addActionListeners(MyConnection conn, String role){
 
         columnNames = new Vector();
-        columnNames.add("ID Регистрации");
-        columnNames.add("Владелец");
-        columnNames.add("ТС");
-        columnNames.add("Гос. номер");
-        columnNames.add("Дата регистрации");
-
+        columnNames.add("ID причины");
+        columnNames.add("Описание");
         strings = new Vector();
-        String select = "select reg_ID, LastName || ' ' || FirstName, brand || ' ' || model, series || ' ' || num, dateReg from registration join owners using(owner_id) join vehicles using (vehicle_id) join freenumbers using (num_id)";
+        String select = "SELECT * FROM AccidentReasons";
         ResultSet resultSet = null;
         try {
             PreparedStatement preparedStatement = conn.conn.prepareStatement(select);
@@ -44,7 +39,7 @@ public class RegistrationView extends JFrame {
                     tmp.add(resultSet.getString(i));
                 strings.add(tmp);
             }
-            new TablesView(conn, "Registration", columnNames, strings, role);
+            new TablesView(conn, "AccidentReasons", columnNames, strings, role);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

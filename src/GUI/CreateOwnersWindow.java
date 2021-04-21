@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CreateOwnersWindow extends JFrame {
-    public CreateOwnersWindow(MyConnection conn) {
+    public CreateOwnersWindow(MyConnection conn, String role) {
         JFrame window = new JFrame("Добавление записи");
      //   window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(400, 300);
@@ -69,7 +69,7 @@ public class CreateOwnersWindow extends JFrame {
                 owner.add("INSERT INTO Owners(ownType_ID, lastName, firstName, patronymic,address) VALUES('" + ownType_ID + "', '" + lastName + "', '" + firstName + "', '" + patronymic + "', '" + address + "')");
                 conn.insert(owner);
                 window.setVisible(false);
-                OwnersWindow ownersWindow = new OwnersWindow(conn);
+                OwnersWindow ownersWindow = new OwnersWindow(conn, role);
             }
             catch (Exception exep){
                 exep.printStackTrace();
@@ -79,7 +79,7 @@ public class CreateOwnersWindow extends JFrame {
 
         goBackButton.addActionListener((e)->{
             setVisible(false);
-                OwnersWindow ownersWindow = new OwnersWindow(conn);
+                OwnersWindow ownersWindow = new OwnersWindow(conn, role);
 
         });
         createPanel.add(LastNamePanel);

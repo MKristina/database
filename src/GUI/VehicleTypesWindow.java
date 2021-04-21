@@ -9,11 +9,11 @@ import java.util.Vector;
 public class VehicleTypesWindow extends JFrame {
     Vector columnNames = null;
     Vector strings = null;
-    public VehicleTypesWindow(MyConnection conn){
-        addActionListeners(conn);
+    public VehicleTypesWindow(MyConnection conn, String role){
+        addActionListeners(conn, role);
 
     }
-    private void addActionListeners(MyConnection conn){
+    private void addActionListeners(MyConnection conn, String role){
 
             columnNames = new Vector();
             columnNames.add("ID типа");
@@ -36,7 +36,7 @@ public class VehicleTypesWindow extends JFrame {
                         tmp.add(resultSet.getString(i));
                     strings.add(tmp);
                 }
-               new TablesView(conn, "VehicleTypes", columnNames, strings);
+               new TablesView(conn, "VehicleTypes", columnNames, strings, role);
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
