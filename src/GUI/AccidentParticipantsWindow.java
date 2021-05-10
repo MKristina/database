@@ -19,7 +19,7 @@ public class AccidentParticipantsWindow extends JFrame {
     private void addActionListeners(MyConnection conn, int accident_ID, String role){
 
         columnNames = new Vector();
-        columnNames.add("ID ДТП");
+        columnNames.add("ID участника");
         columnNames.add("ФИО участника");
         columnNames.add("ТС");
         columnNames.add("Гос. номер");

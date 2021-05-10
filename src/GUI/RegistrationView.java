@@ -22,12 +22,13 @@ public class RegistrationView extends JFrame {
         columnNames = new Vector();
         columnNames.add("ID Регистрации");
         columnNames.add("Владелец");
+        columnNames.add("Тип владельца");
         columnNames.add("ТС");
         columnNames.add("Гос. номер");
         columnNames.add("Дата регистрации");
 
         strings = new Vector();
-        String select = "select reg_ID, LastName || ' ' || FirstName, brand || ' ' || model, series || ' ' || num, dateReg from registration join owners using(owner_id) join vehicles using (vehicle_id) join freenumbers using (num_id)";
+        String select = "select reg_ID, o.name, ot.name, brand || ' ' || model, series || ' ' || num, dateReg from registration join owners o using(owner_id) join ownerTypes ot using(ownType_id) join vehicles using (vehicle_id) join freenumbers using (num_id)";
         ResultSet resultSet = null;
         try {
             PreparedStatement preparedStatement = conn.conn.prepareStatement(select);

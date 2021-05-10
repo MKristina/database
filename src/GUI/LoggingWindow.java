@@ -3,11 +3,12 @@ import DAO.MyConnection;
 import javax.swing.*;
 import java.sql.SQLException;
 
-public class LoggingWindow {
+public class LoggingWindow extends JFrame {
     public LoggingWindow(){
         JFrame window = new JFrame("Авторизация");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setSize(400, 200);
+     //   window.setLayout(null);
         JPanel loginPanel = new JPanel();
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.PAGE_AXIS));
 
@@ -22,8 +23,14 @@ public class LoggingWindow {
         JPasswordField passwordField = new JPasswordField(20);
         passwordPanel.add(txtPassword);
         passwordPanel.add(passwordField);
+        JPanel buttonPanel = new JPanel();
         JButton loginButton = new JButton("Войти");
-        loginButton.setBounds(100, 150, 50, 50);
+        loginButton.setBounds(50, 120, 50, 50);
+        JButton goBackButton = new JButton("Назад");
+        goBackButton.setBounds(100, 120, 50, 50);
+        buttonPanel.add(loginButton);
+        buttonPanel.add(goBackButton);
+
         JLabel txtError = new JLabel("Неверный логин или пароль!") ;
         txtError.setVisible(false);
         loginButton.addActionListener(e ->{
@@ -39,13 +46,21 @@ public class LoggingWindow {
 
             }
         });
+        goBackButton.addActionListener(e -> {
+            window.setVisible(false);
+            try {
+                MainWindow mainWindow = new MainWindow();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
 
         loginPanel.add(usernamePanel);
         loginPanel.add(passwordPanel);
         loginPanel.add(txtError);
-        loginPanel.add(loginButton);
-
+        loginPanel.add(buttonPanel);
         window.add(loginPanel);
+    //    window.add(buttonPanel);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
     }

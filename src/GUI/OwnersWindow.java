@@ -18,13 +18,13 @@ public class OwnersWindow extends JFrame {
     private void addActionListeners(MyConnection conn, String role){
             columnNames = new Vector();
             columnNames.add("ID владельца");
-            columnNames.add("Фамилия");
+    //        columnNames.add("Фамилия");
             columnNames.add("Имя");
-            columnNames.add("Отчество");
-            columnNames.add("Адрес");
+     //       columnNames.add("Отчество");
+     //       columnNames.add("Адрес");
             columnNames.add("Тип владельца");
             strings = new Vector();
-            String select = "SELECT owner_ID, LastName, FirstName, patronymic, address, OwnerTypes.name FROM Owners INNER JOIN OwnerTypes USING(ownType_ID)";
+            String select = "SELECT owner_ID, Owners.name, OwnerTypes.name FROM Owners INNER JOIN OwnerTypes USING(ownType_ID)";
             ResultSet resultSet = null;
             try {
                 PreparedStatement preparedStatement = conn.conn.prepareStatement(select);

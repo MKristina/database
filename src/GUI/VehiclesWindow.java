@@ -33,7 +33,7 @@ public class VehiclesWindow extends JFrame {
             columnNames.add("Цвет");
             columnNames.add("Тип кузова");
             strings = new Vector();
-            String select = "SELECT vehicle_ID, VehicleTypes.name, brand, model, dateOfIssue,engineNumber, engineVolume, enginePower,chassisNumber, bodyNumber, color, bodyType FROM Vehicles INNER JOIN VehicleTypes USING(type_ID)";
+            String select = "SELECT vehicle_ID, VehicleTypes.name, brand, model, to_char(dateOfIssue, 'yyyy'),engineNumber, engineVolume, enginePower,chassisNumber, bodyNumber, color, bodyType FROM Vehicles INNER JOIN VehicleTypes USING(type_ID)";
             ResultSet resultSet = null;
             try {
                 PreparedStatement preparedStatement = conn.conn.prepareStatement(select);

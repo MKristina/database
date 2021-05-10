@@ -52,7 +52,9 @@ public class MenuWindow extends JFrame {
         registrationNewButton.setBounds(240, 10, 200, 40);
 
         registrationNewButton.addActionListener(e-> {
-            CreateRegistrationWindow createRegistrationWindow = new CreateRegistrationWindow(conn, role);
+            try {
+                CreateRegistrationWindow createRegistrationWindow = new CreateRegistrationWindow(conn, role);
+            } catch (Exception ee) {}
             window.setVisible(false);
         });
 
@@ -93,21 +95,66 @@ public class MenuWindow extends JFrame {
             SearchNumber searchNumber  = new SearchNumber(conn, role);
             window.setVisible(false);
         });
+        JButton theftButton = new JButton("Угон ТС");
+        theftButton.setBounds(240, 110, 200, 40);
+
+        theftButton.addActionListener(e-> {
+            TheftWindow theftWindow  = new TheftWindow(conn, role);
+            window.setVisible(false);
+        });
+        JButton inspectionButton = new JButton("Техосмотр");
+        inspectionButton.setBounds(240, 160, 200, 40);
+
+        inspectionButton.addActionListener(e-> {
+            InspectionWindow inspectionWindow  = new InspectionWindow(conn, role);
+            window.setVisible(false);
+        });
+        JButton overInspectionButton = new JButton("Просроченный техосмотр");
+        overInspectionButton.setBounds(240, 210, 200, 40);
+
+        overInspectionButton.addActionListener(e-> {
+            OverdueInspectionWindow overdueInspectionWindow  = new OverdueInspectionWindow(conn, role);
+            window.setVisible(false);
+        });
+        JButton DtpPeriodButton = new JButton("Просроченный техосмотр");
+        DtpPeriodButton.setBounds(240, 260, 200, 40);
+
+        DtpPeriodButton.addActionListener(e-> {
+            DTPDateStatistics dtpDateStatistics  = new DTPDateStatistics(conn, role);
+            window.setVisible(false);
+        });
+        JButton TheftPeriodButton = new JButton("Статистика угонов");
+        TheftPeriodButton.setBounds(240, 310, 200, 40);
+
+        TheftPeriodButton.addActionListener(e-> {
+            TheftDateStatistics theftDateStatistics  = new TheftDateStatistics(conn, role);
+            window.setVisible(false);
+        });
+        JButton vehicleInfButton = new JButton("Информация о ТС");
+        vehicleInfButton.setBounds(20, 410, 200, 40);
+
+        vehicleInfButton.addActionListener(e-> {
+            SearchInfoByNum searchInfoByNum = new SearchInfoByNum(conn, role);
+            window.setVisible(false);
+        });
 
         JButton goBackButton = new JButton("Сменить пользователя");
-        goBackButton.setBounds(240, 360, 200, 40);
+        goBackButton.setBounds(240, 410, 200, 40);
 
         goBackButton.addActionListener(e-> {
             AuthorizationWindow authorizationWindow  = new AuthorizationWindow(conn);
             window.setVisible(false);
         });
 
-        if(role == "admin"){
-            registrationNewButton.setVisible(false);
+        if(role == "staffGIBDD"){
+            registrationNewButton.setVisible(true);
             accidentNewButton.setVisible(false);
         } else if(role == "staff"){
-            registrationNewButton.setVisible(true);
+            registrationNewButton.setVisible(false);
             accidentNewButton.setVisible(true);
+        } else if (role == "admin"){
+            registrationNewButton.setVisible(false);
+            accidentNewButton.setVisible(false);
         }
 
      // window.add(msg);
@@ -119,10 +166,15 @@ public class MenuWindow extends JFrame {
       window.add(accTypesButton);
       window.add(accReasonsButton);
       window.add(accidentButton);
-
-        window.add(accidentNewButton);
+      window.add(accidentNewButton);
       window.add(ownInfButton);
-        window.add(goBackButton);
+      window.add(vehicleInfButton);
+      window.add(goBackButton);
+      window.add(theftButton);
+      window.add(inspectionButton);
+      window.add(overInspectionButton);
+      window.add(DtpPeriodButton);
+      window.add(TheftPeriodButton);
       window.setVisible(true);
       window.setLocationRelativeTo(null);
     }

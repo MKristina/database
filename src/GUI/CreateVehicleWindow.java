@@ -10,7 +10,7 @@ public class CreateVehicleWindow extends JFrame {
     public CreateVehicleWindow(MyConnection conn, String role) {
          Map<String, String> vehicletype = new HashMap<>();
         JFrame window = new JFrame("Добавление записи");
-        //   window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setSize(500, 600);
         JPanel createPanel = new JPanel();
         createPanel.setLayout(new BoxLayout(createPanel, BoxLayout.PAGE_AXIS));
@@ -45,8 +45,10 @@ public class CreateVehicleWindow extends JFrame {
         JPanel DatePanel = new JPanel();
         JLabel txtDate = new JLabel("Год выпуска: ");
      //   JTextField DateField = new JTextField(10);
-        JFormattedTextField DateField = new JFormattedTextField(NumberFormat.getInstance());
-        DateField.setColumns(4);
+  //      JFormattedTextField DateField = new JFormattedTextField(NumberFormat.getInstance());
+    //    DateField.setColumns(4);
+        SpinnerNumberModel datemodel = new SpinnerNumberModel(2021, 1900, 2021, 1);
+        JSpinner DateField = new JSpinner(datemodel);
         DatePanel.add(txtDate);
         DatePanel.add(DateField);
 
@@ -112,7 +114,7 @@ public class CreateVehicleWindow extends JFrame {
                 int type_id = Integer.parseInt(vehicletype.get(typeBox.getSelectedItem()));
                 String brand = BrandField.getText();
                 String model = ModelField.getText();
-                String dateOfIssue = DateField.getText();
+                String dateOfIssue = (String) DateField.getValue();
                 float engineVolume = Float.parseFloat(VolumeField.getText());
                 String engineNumber = EngineField.getText();
                 String chassisNumber = chassisField.getText();

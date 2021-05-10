@@ -15,7 +15,7 @@ public class CreateDTPWindow extends JFrame {
         Map<String, String> accTypeMap = new HashMap<>();
         Map<String, String> accResMap = new HashMap<>();
         JFrame window = new JFrame("Добавление записи");
-        //   window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setSize(500, 500);
         JPanel createPanel = new JPanel();
         createPanel.setLayout(new BoxLayout(createPanel, BoxLayout.PAGE_AXIS));

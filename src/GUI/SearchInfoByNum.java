@@ -3,16 +3,14 @@ package GUI;
 import DAO.MyConnection;
 
 import javax.swing.*;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class SearchNumber extends JFrame{
+public class SearchInfoByNum extends JFrame {
     private Map<String, String> vehiclenum = new HashMap<>();
-    public SearchNumber(MyConnection conn, String role){
+    public SearchInfoByNum(MyConnection conn, String role){
         JFrame window = new JFrame("Поиск по номеру");
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setSize(400, 200);
@@ -38,15 +36,14 @@ public class SearchNumber extends JFrame{
         searchButton.setBounds(50, 120, 50, 50);
         JButton goBackButton = new JButton("Назад");
         goBackButton.setBounds(120, 120, 50, 50);
-        buttonPanel.add(searchButton);
-        buttonPanel.add(goBackButton);
         JLabel txtError = new JLabel("Данные введены неверно!") ;
         txtError.setVisible(false);
+        buttonPanel.add(searchButton);
+        buttonPanel.add(goBackButton);
         searchButton.addActionListener(e ->{
-                window.setVisible(false);
-               SearchNumResWindow searchNumResWindow= new SearchNumResWindow(conn, role,vehiclenum.get(seriesBox.getSelectedItem()) );
+            window.setVisible(false);
+            SearchInfoByNumResWindow searchInfoByNumResWindow= new SearchInfoByNumResWindow(conn, role,vehiclenum.get(seriesBox.getSelectedItem()) );
         });
-
         goBackButton.addActionListener(e -> {
             window.setVisible(false);
             try {
@@ -57,9 +54,9 @@ public class SearchNumber extends JFrame{
         });
         loginPanel.add(seriesPanel);
         loginPanel.add(txtError);
-   //     loginPanel.add(searchButton);
-     //   loginPanel.add(goBackButton);
         loginPanel.add(buttonPanel);
+     //   loginPanel.add(searchButton);
+      //  loginPanel.add(goBackButton);
         window.add(loginPanel);
         window.setVisible(true);
         window.setLocationRelativeTo(null);

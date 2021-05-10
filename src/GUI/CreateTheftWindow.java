@@ -1,47 +1,28 @@
 package GUI;
 
 import DAO.MyConnection;
-import com.sun.org.apache.regexp.internal.RE;
 
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
 import javax.swing.text.MaskFormatter;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class CreateRegistrationWindow extends JFrame {
-    public CreateRegistrationWindow(MyConnection conn, String role) throws ParseException {
+public class CreateTheftWindow extends JFrame {
+    public CreateTheftWindow(MyConnection conn, String role) throws ParseException {
         Map<String, String> vehicleMap = new HashMap<>();
-        Map<String, String> ownerMap = new HashMap<>();
-        Map<String, String> numMap = new HashMap<>();
         JFrame window = new JFrame("Добавление записи");
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setSize(500, 250);
         JPanel createPanel = new JPanel();
         createPanel.setLayout(new BoxLayout(createPanel, BoxLayout.PAGE_AXIS));
 
-        JPanel ownerPanel = new JPanel();
-        JLabel txtOwner = new JLabel("Владелец: ");
-        JComboBox ownerBox = new JComboBox();
-        Vector resultVector = new Vector();
-        resultVector = conn.select("select owner_id, o.name, ot.name from owners o join ownertypes ot using(ownType_id)", 2);
-        for(int i =0; i< resultVector.size(); i++){
-            Vector<String> vec = (Vector<String>) resultVector.get(i);
-            ownerMap.put(vec.get(1), vec.get(0));
-            ownerBox.addItem(vec.get(1));
-        }
-        ownerPanel.add(txtOwner);
-        ownerPanel.add(ownerBox);
 
         JPanel vehiclePanel = new JPanel();
         JLabel txtVehicle = new JLabel("Транспортное средство: ");
         JComboBox vehicleBox = new JComboBox();
         Vector resultVector2 = new Vector();
-        resultVector2 = conn.select("SELECT vehicle_ID, brand||' ' ||model||' '||dateOfIssue from Vehicles", 2);
+        resultVector2 = conn.select("select reg_id, brand || ' ' || model||' '|| series || ' ' || num from registration join vehicles using (vehicle_id) join freenumbers using (num_id)", 2);
         for(int i =0; i< resultVector2.size(); i++){
             Vector<String> vec = (Vector<String>) resultVector2.get(i);
             vehicleMap.put(vec.get(1), vec.get(0));
@@ -50,32 +31,13 @@ public class CreateRegistrationWindow extends JFrame {
         vehiclePanel.add(txtVehicle);
         vehiclePanel.add(vehicleBox);
 
-
-        JPanel numPanel = new JPanel();
-        JLabel txtNum = new JLabel("Гос. номер: ");
-        JComboBox numBox = new JComboBox();
-        Vector resultVector3 = new Vector();
-        resultVector3 = conn.select("SELECT num_ID, series ||' '|| num from FreeNumbers where flag = 0", 2);
-
-        for(int i =0; i< resultVector3.size(); i++){
-            Vector<String> vec = (Vector<String>) resultVector3.get(i);
-            numMap.put(vec.get(1), vec.get(0));
-            numBox.addItem(vec.get(1));
-        }
-        numPanel.add(txtNum);
-        numPanel.add(numBox);
-
-
         JPanel DatePanel = new JPanel();
-        JLabel txtDate = new JLabel("Дата регистрации: ");
-        //DateFormat format = new SimpleDateFormat("dd.mm.yyyy");
-        //DateFormatter df = new DateFormatter(format);
+        JLabel txtDate = new JLabel("Дата угона: ");
         MaskFormatter maskFormatter = new MaskFormatter("##.##.####");
         JFormattedTextField DateField = new JFormattedTextField(maskFormatter);
         DateField.setColumns(10);
         DatePanel.add(txtDate);
         DatePanel.add(DateField);
-
 
         JPanel BtnPanel = new JPanel();
         JButton createButton = new JButton("Создать");
@@ -88,19 +50,15 @@ public class CreateRegistrationWindow extends JFrame {
         BtnPanel.add(goBackButton);
         createButton.addActionListener(e ->{
             try {
-                int owner_id = Integer.parseInt(ownerMap.get(ownerBox.getSelectedItem()));
-                int vehicle_id = Integer.parseInt(vehicleMap.get(vehicleBox.getSelectedItem()));
-                int num_id = Integer.parseInt(numMap.get(numBox.getSelectedItem()));
-                String dateOfIssue = DateField.getText();
-                List<String> reg = new LinkedList<>();
+                int reg_id = Integer.parseInt(vehicleMap.get(vehicleBox.getSelectedItem()));
+                String dateOfTheft = DateField.getText();
+                List<String> theft = new LinkedList<>();
 
-                reg.add("INSERT INTO Registration(num_ID, vehicle_ID, owner_ID, dateReg) VALUES('" + num_id + "', '" + owner_id + "', '" + vehicle_id + "',TO_DATE ('" + dateOfIssue + "', 'dd.mm.yyyy'))");
-                conn.insert(reg);
-                String updateNum = "UPDATE FreeNumbers SET flag = 1 WHERE num_ID = " + num_id;
-                conn.executeQuery(updateNum);
+                theft.add("INSERT INTO VehicleTheft(reg_ID, dateOfTheft) VALUES('" + reg_id +  "',TO_DATE ('" + dateOfTheft + "', 'dd.mm.yyyy'))");
+                conn.insert(theft);
                 window.setVisible(false);
                 if(role == "admin"){
-                    RegistrationView registrationView = new RegistrationView(conn, role);
+                    TheftWindow theftWindow = new TheftWindow(conn, role);
                 } else if (role == "staff"){
                     try {
                         MenuWindow menuWindow = new MenuWindow(conn, role);
@@ -118,8 +76,8 @@ public class CreateRegistrationWindow extends JFrame {
         goBackButton.addActionListener((e)->{
             window.setVisible(false);
             if(role == "admin"){
-                RegistrationView registrationView = new RegistrationView(conn, role);
-            } else if (role == "staffGIBDD"){
+                TheftWindow theftWindow = new TheftWindow(conn, role);
+            } else if (role == "staff"){
                 try {
                     MenuWindow menuWindow = new MenuWindow(conn, role);
                 } catch (SQLException throwables) {
@@ -128,9 +86,7 @@ public class CreateRegistrationWindow extends JFrame {
             }
 
         });
-        createPanel.add(ownerPanel);
         createPanel.add(vehiclePanel);
-        createPanel.add(numPanel);
         createPanel.add(DatePanel);
         createPanel.add(BtnPanel);
         createPanel.add(txtError);

@@ -10,7 +10,7 @@ import java.util.List;
 public class CreateOwnersWindow extends JFrame {
     public CreateOwnersWindow(MyConnection conn, String role) {
         JFrame window = new JFrame("Добавление записи");
-     //   window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setSize(400, 300);
         JPanel createPanel = new JPanel();
         createPanel.setLayout(new BoxLayout(createPanel, BoxLayout.PAGE_AXIS));
@@ -39,12 +39,14 @@ public class CreateOwnersWindow extends JFrame {
         AddressPanel.add(txtAddressName);
         AddressPanel.add(AddressField);
 
-        JPanel TypePanel = new JPanel();
+    /*    JPanel TypePanel = new JPanel();
         JLabel txtTypeName = new JLabel("Тип владельца: ");
         String[] items = {"физическое лицо", "юридическое лицо" };
         JComboBox typeBox = new JComboBox(items);
         TypePanel.add(txtTypeName);
         TypePanel.add(typeBox);
+
+     */
         JPanel BtnPanel = new JPanel();
         JButton createButton = new JButton("Создать");
         createButton.setBounds(100, 150, 50, 50);
@@ -60,14 +62,17 @@ public class CreateOwnersWindow extends JFrame {
                 String firstName = FirstNameField.getText();
                 String patronymic = patronymicField.getText();
                 String address = AddressField.getText();
-                int ownType_ID;
+          /*      int ownType_ID;
                 int ownType = typeBox.getSelectedIndex();
                 if (ownType == 0 ) ownType_ID=1;
                 else ownType_ID=2;
-                System.out.println(ownType_ID);
+                System.out.println(ownType_ID);*/
                 List<String> owner = new LinkedList<>();
-                owner.add("INSERT INTO Owners(ownType_ID, lastName, firstName, patronymic,address) VALUES('" + ownType_ID + "', '" + lastName + "', '" + firstName + "', '" + patronymic + "', '" + address + "')");
+                owner.add("INSERT INTO Owners(ownType_ID, name) VALUES('" + 1 + "', '" + lastName + " " + firstName + " " + patronymic +  "')");
                 conn.insert(owner);
+                List<String> ind_owner = new LinkedList<>();
+                ind_owner.add("INSERT INTO IndividualOwners( lastName, firstName, patronymic,address) VALUES('"  + lastName + "', '" + firstName + "', '" + patronymic + "', '" + address + "')");
+                conn.insert(ind_owner);
                 window.setVisible(false);
                 OwnersWindow ownersWindow = new OwnersWindow(conn, role);
             }
@@ -78,7 +83,7 @@ public class CreateOwnersWindow extends JFrame {
         });
 
         goBackButton.addActionListener((e)->{
-            setVisible(false);
+            window.setVisible(false);
                 OwnersWindow ownersWindow = new OwnersWindow(conn, role);
 
         });
@@ -86,7 +91,7 @@ public class CreateOwnersWindow extends JFrame {
         createPanel.add(FirstNamePanel);
         createPanel.add(patronymicPanel);
         createPanel.add(AddressPanel);
-        createPanel.add(TypePanel);
+     //   createPanel.add(TypePanel);
         createPanel.add(BtnPanel);
         createPanel.add(txtError);
       //  createPanel.add(createButton);
