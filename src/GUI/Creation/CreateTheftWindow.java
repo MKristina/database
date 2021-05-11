@@ -1,63 +1,66 @@
-package GUI;
+package GUI.Creation;
 
 import DAO.MyConnection;
+import GUI.MenuWindow;
 import GUI.Requests.TheftDateStatistics;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-public class UpdateTheftWindow extends JFrame {
-
-    public UpdateTheftWindow(MyConnection conn, int theft_ID, String role){
-        addActionListeners(conn,  theft_ID, role);
-
-    }
-    private void addActionListeners(MyConnection conn, int theft_ID, String role) {
-
-        JFrame window = new JFrame("Транспорное средтсво найдено");
+public class CreateTheftWindow extends JFrame {
+    public CreateTheftWindow(MyConnection conn, String role) throws ParseException {
+        Map<String, String> vehicleMap = new HashMap<>();
+        JFrame window = new JFrame("Добавление записи");
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        window.setSize(300, 200);
+        window.setSize(500, 250);
         JPanel createPanel = new JPanel();
         createPanel.setLayout(new BoxLayout(createPanel, BoxLayout.PAGE_AXIS));
 
-        JPanel datePanel = new JPanel();
-        JLabel txtDate = new JLabel("Дата возвращения ТС: ");
-        MaskFormatter maskFormatter = null;
-        try {
-            maskFormatter = new MaskFormatter("##.##.####");
-        } catch (ParseException e) {
-            e.printStackTrace();
+
+        JPanel vehiclePanel = new JPanel();
+        JLabel txtVehicle = new JLabel("Транспортное средство: ");
+        JComboBox vehicleBox = new JComboBox();
+        Vector resultVector2 = new Vector();
+        resultVector2 = conn.select("select reg_id, brand || ' ' || model||' '|| series || ' ' || num from registration join vehicles using (vehicle_id) join freenumbers using (num_id)", 2);
+        for(int i =0; i< resultVector2.size(); i++){
+            Vector<String> vec = (Vector<String>) resultVector2.get(i);
+            vehicleMap.put(vec.get(1), vec.get(0));
+            vehicleBox.addItem(vec.get(1));
         }
+        vehiclePanel.add(txtVehicle);
+        vehiclePanel.add(vehicleBox);
+
+        JPanel DatePanel = new JPanel();
+        JLabel txtDate = new JLabel("Дата угона: ");
+        MaskFormatter maskFormatter = new MaskFormatter("##.##.####");
         JFormattedTextField DateField = new JFormattedTextField(maskFormatter);
         DateField.setColumns(10);
-        datePanel.add(txtDate);
-        datePanel.add(DateField);
+        DatePanel.add(txtDate);
+        DatePanel.add(DateField);
 
         JPanel BtnPanel = new JPanel();
-
-        JButton updateButton = new JButton("Обновить данные");
-        updateButton.setBounds(100, 150, 50, 50);
+        JButton createButton = new JButton("Создать");
+        createButton.setBounds(100, 150, 50, 50);
         JLabel txtError = new JLabel("Данные введены неверно!");
         txtError.setVisible(false);
         JButton goBackButton = new JButton("Назад");
-        goBackButton.setBounds(50, 150, 50, 50);
-
-        BtnPanel.add(updateButton);
+        createButton.setBounds(50, 150, 50, 50);
+        BtnPanel.add(createButton);
         BtnPanel.add(goBackButton);
-
-        updateButton.addActionListener(e ->{
+        createButton.addActionListener(e ->{
             try {
-                String dateOfReturn = DateField.getText();
+                int reg_id = Integer.parseInt(vehicleMap.get(vehicleBox.getSelectedItem()));
+                String dateOfTheft = DateField.getText();
                 List<String> theft = new LinkedList<>();
-                theft.add("UPDATE VehicleTheft SET dateOfReturn = TO_DATE ('" + dateOfReturn + "', 'dd.mm.yyyy') where theft_id = " + theft_ID);
+
+                theft.add("INSERT INTO VehicleTheft(reg_ID, dateOfTheft) VALUES('" + reg_id +  "',TO_DATE ('" + dateOfTheft + "', 'dd.mm.yyyy'))");
                 conn.insert(theft);
                 window.setVisible(false);
                 if(role == "admin"){
-                    TheftDateStatistics theftDateStatistics = new TheftDateStatistics(conn, role);
+                    TheftDateStatistics theftWindow = new TheftDateStatistics(conn, role);
                 } else if (role == "staff"){
                     try {
                         MenuWindow menuWindow = new MenuWindow(conn, role);
@@ -85,10 +88,13 @@ public class UpdateTheftWindow extends JFrame {
             }
 
         });
-        createPanel.add(datePanel);
+        createPanel.add(vehiclePanel);
+        createPanel.add(DatePanel);
         createPanel.add(BtnPanel);
+        createPanel.add(txtError);
         window.add(createPanel);
         window.setVisible(true);
         window.setLocationRelativeTo(null);
     }
+
 }

@@ -1,14 +1,15 @@
 package GUI;
 
 import DAO.MyConnection;
+import GUI.Creation.*;
+import GUI.Tables.AccidentParticipantsWindow;
+import GUI.Tables.AccidentsWindow;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Vector;
@@ -18,7 +19,6 @@ public class TablesView extends JFrame {
     private JButton createNew;
     private JButton deleteNew;
     private JButton details;
-    private JButton returnVehicle;
     private JTable table;
     private JButton part;
     private JPanel mainPanel;
@@ -35,11 +35,9 @@ public class TablesView extends JFrame {
         deleteNew.setVisible(false);
         details = new JButton("Подробности");
         details.setVisible(false);
-        returnVehicle = new JButton("Возврат ТС");
-        returnVehicle.setVisible(false);
         part = new JButton("Добавить участника");
         part.setVisible(false);
-        if((tableName == "Owners" || tableName == "Vehicles" || tableName == "Registration" || tableName == "RoadAccidents" || tableName == "AccidentParticipants" || tableName == "VehicleTheft" || tableName == "Inspection")&& role != "staff"){
+        if((tableName == "Owners" || tableName == "Vehicles" || tableName == "Registration" || tableName == "RoadAccidents" || tableName == "AccidentParticipants"  || tableName == "Inspection")&& role != "staff"){
             createNew.setVisible(true);
             deleteNew.setVisible(true);
         }
@@ -49,9 +47,6 @@ public class TablesView extends JFrame {
         if (tableName=="AccidentParticipants"){
             part.setVisible(true);
             createNew.setVisible(false);
-        }
-        if(tableName =="VehicleTheft"){
-            returnVehicle.setVisible(true);
         }
         goBack = new JButton("Назад");
         addActionListener(conn, tableName, role);
@@ -70,7 +65,6 @@ public class TablesView extends JFrame {
         goBackPanel.add(createNew);
         goBackPanel.add(deleteNew);
         goBackPanel.add(details);
-        goBackPanel.add(returnVehicle);
         goBackPanel.add(part);
         mainPanel.add(new JScrollPane(table), BorderLayout.CENTER);
         mainPanel.add(goBackPanel);
@@ -105,12 +99,6 @@ public class TablesView extends JFrame {
                 }
             } else if (tableName == "RoadAccidents"){
                 new CreateDTPWindow(conn, role);
-            } else if(tableName == "VehicleTheft"){
-                try {
-                    new CreateTheftWindow(conn, role);
-                } catch (ParseException parseException) {
-                    parseException.printStackTrace();
-                }
             } else if (tableName == "Inspection") {
                 try {
                     new CreateInspectionWindow(conn, role);
@@ -136,8 +124,6 @@ public class TablesView extends JFrame {
                 del= "DELETE FROM Registration WHERE reg_ID = " + del_ID;
             } else if (tableName == "AccidentParticipants"){
                 del= "DELETE FROM AccidentParticipants WHERE record_ID = " + del_ID;
-            } else if (tableName == "VehicleTheft"){
-                del= "DELETE FROM VehicleTheft WHERE theft_ID = " + del_ID;
             } else if (tableName == "Inspection"){
                 del = "DELETE FROM Inspection WHERE insp_id = " + del_ID;
             }
@@ -163,17 +149,6 @@ public class TablesView extends JFrame {
         part.addActionListener((e)->{
             setVisible(false);
             new CreateParticipantWindow(conn, role);
-        });
-        returnVehicle.addActionListener((e)-> {
-            int selectedRow = table.getSelectedRow();
-            int theft_id = 0;
-            if(selectedRow != -1){
-                theft_id = Integer.parseInt((String) model.getValueAt(selectedRow, 0));
-                setVisible(false);
-                new UpdateTheftWindow(conn, theft_id, role);
-            } else{
-                JOptionPane.showMessageDialog(mainPanel, "Запись не выбрана!");
-            }
         });
     }
 }

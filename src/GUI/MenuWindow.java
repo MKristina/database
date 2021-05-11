@@ -1,13 +1,14 @@
 package GUI;
 
 import DAO.MyConnection;
+import GUI.Creation.CreateDTPWindow;
+import GUI.Creation.CreateRegistrationWindow;
+import GUI.Requests.*;
+import GUI.Tables.*;
 
 import javax.swing.*;
-import java.awt.*;
 
-import java.util.List;
 import java.sql.SQLException;
-import java.util.LinkedList;
 
 public class MenuWindow extends JFrame {
 
@@ -95,13 +96,6 @@ public class MenuWindow extends JFrame {
             SearchNumber searchNumber  = new SearchNumber(conn, role);
             window.setVisible(false);
         });
-        JButton theftButton = new JButton("Угон ТС");
-        theftButton.setBounds(240, 110, 200, 40);
-
-        theftButton.addActionListener(e-> {
-            TheftWindow theftWindow  = new TheftWindow(conn, role);
-            window.setVisible(false);
-        });
         JButton inspectionButton = new JButton("Техосмотр");
         inspectionButton.setBounds(240, 160, 200, 40);
 
@@ -116,18 +110,25 @@ public class MenuWindow extends JFrame {
             OverdueInspectionWindow overdueInspectionWindow  = new OverdueInspectionWindow(conn, role);
             window.setVisible(false);
         });
-        JButton DtpPeriodButton = new JButton("Просроченный техосмотр");
+        JButton DtpPeriodButton = new JButton("Статистика ДТП");
         DtpPeriodButton.setBounds(240, 260, 200, 40);
 
         DtpPeriodButton.addActionListener(e-> {
             DTPDateStatistics dtpDateStatistics  = new DTPDateStatistics(conn, role);
             window.setVisible(false);
         });
-        JButton TheftPeriodButton = new JButton("Статистика угонов");
-        TheftPeriodButton.setBounds(240, 310, 200, 40);
+        JButton TheftPeriodButton = new JButton("Угон ТС");
+        TheftPeriodButton.setBounds(240, 110, 200, 40);
 
         TheftPeriodButton.addActionListener(e-> {
             TheftDateStatistics theftDateStatistics  = new TheftDateStatistics(conn, role);
+            window.setVisible(false);
+        });
+        JButton DtpReasonButton = new JButton("Статистика причин ДТП");
+        DtpReasonButton.setBounds(240, 310, 200, 40);
+
+        DtpReasonButton.addActionListener(e-> {
+            DTPReasonsStatistics dtpReasonsStatistics  = new DTPReasonsStatistics(conn, role);
             window.setVisible(false);
         });
         JButton vehicleInfButton = new JButton("Информация о ТС");
@@ -170,11 +171,11 @@ public class MenuWindow extends JFrame {
       window.add(ownInfButton);
       window.add(vehicleInfButton);
       window.add(goBackButton);
-      window.add(theftButton);
       window.add(inspectionButton);
       window.add(overInspectionButton);
       window.add(DtpPeriodButton);
       window.add(TheftPeriodButton);
+      window.add(DtpReasonButton);
       window.setVisible(true);
       window.setLocationRelativeTo(null);
     }

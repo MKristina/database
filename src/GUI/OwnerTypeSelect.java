@@ -1,9 +1,11 @@
 package GUI;
 
 import DAO.MyConnection;
+import GUI.Creation.CreateOrganizationsWindow;
+import GUI.Creation.CreateOwnersWindow;
+import GUI.Tables.OwnersWindow;
 
 import javax.swing.*;
-import java.sql.SQLException;
 
 public class OwnerTypeSelect extends JFrame {
     public OwnerTypeSelect(MyConnection conn, String role)  {
